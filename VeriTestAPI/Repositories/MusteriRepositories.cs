@@ -14,48 +14,49 @@ namespace VeriTestAPI.Repositories
 
         public string GetAll()
         {
-            var musteriler = _context.Musteriler.ToList();
-            if (musteriler != null)
+            try
             {
+                var musteriler = _context.Musteriler.ToList();
                 return JsonSerializer.Serialize(musteriler);
             }
-            else
+            catch (Exception)
             {
                 return "Müşteriler bulunamadı";
             }
+            
             
         }
 
         public string Get(int id)
         {
-            var musteri = _context.Musteriler.FirstOrDefault(x => x.Id == id);
-            if(musteri != null)
+            try
             {
+                var musteri = _context.Musteriler.FirstOrDefault(x => x.MusteriId == id);
                 return JsonSerializer.Serialize(musteri);
             }
-            else
-            {
+            catch
+            { 
                 return "Müşteri bulunamadı";
             }
         }
 
         public string Post(MusteriViewModel yeniMusteri)
         {
-            var AddMusteri = new Musteri
+            Musteri musteri = new Musteri
             {
                 Ad = yeniMusteri.Ad,
                 Soyad = yeniMusteri.Soyad,
                 Telefon = yeniMusteri.Telefon,
                 OlusturulmaTarihi = DateTime.UtcNow
             };
-            _context.Musteriler.Add(AddMusteri);
+            _context.Musteriler.Add(musteri);
             _context.SaveChanges();
-            return "";
+            return musteri.Ad + " " + musteri.Soyad + " isimli müşteri eklenmiştir";
         }
 
         public string Put(int id, MusteriViewModel guncelMusteri)
         {
-            var musteri = _context.Musteriler.FirstOrDefault(x => x.Id == id);
+            var musteri = _context.Musteriler.FirstOrDefault(x => x.MusteriId == id);
             if(musteri != null)
             {
                 musteri.Ad = guncelMusteri.Ad;
@@ -69,7 +70,7 @@ namespace VeriTestAPI.Repositories
 
         public string Delete(int id)
         {
-            var musteri = _context.Musteriler.FirstOrDefault(x => x.Id == id);
+            var musteri = _context.Musteriler.FirstOrDefault(x => x.MusteriId == id);
             if (musteri != null)
             {
                 var islem = _context.Musteriler.Remove(musteri);

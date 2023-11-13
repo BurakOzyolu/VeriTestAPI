@@ -12,7 +12,7 @@ using VeriTestAPI.Models;
 namespace VeriTestAPI.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20231109132929_mig1")]
+    [Migration("20231110152301_mig1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace VeriTestAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HarcamaId"));
 
-                    b.Property<int>("MusteriId")
+                    b.Property<int?>("MusteriId")
                         .HasColumnType("int");
 
                     b.Property<bool>("OdenmeDurumu")
@@ -51,11 +51,11 @@ namespace VeriTestAPI.Migrations
 
             modelBuilder.Entity("VeriTestAPI.Models.Musteri", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MusteriId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MusteriId"));
 
                     b.Property<string>("Ad")
                         .IsRequired()
@@ -72,7 +72,7 @@ namespace VeriTestAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MusteriId");
 
                     b.ToTable("Musteriler");
                 });
@@ -81,9 +81,7 @@ namespace VeriTestAPI.Migrations
                 {
                     b.HasOne("VeriTestAPI.Models.Musteri", "Musteri")
                         .WithMany("Harcamalar")
-                        .HasForeignKey("MusteriId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MusteriId");
 
                     b.Navigation("Musteri");
                 });

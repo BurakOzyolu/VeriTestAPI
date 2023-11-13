@@ -15,7 +15,7 @@ namespace VeriTestAPI.Migrations
                 name: "Musteriler",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    MusteriId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ad = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Soyad = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -24,7 +24,7 @@ namespace VeriTestAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Musteriler", x => x.Id);
+                    table.PrimaryKey("PK_Musteriler", x => x.MusteriId);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,7 +33,7 @@ namespace VeriTestAPI.Migrations
                 {
                     HarcamaId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MusteriId = table.Column<int>(type: "int", nullable: false),
+                    MusteriId = table.Column<int>(type: "int", nullable: true),
                     Tutar = table.Column<float>(type: "real", nullable: false),
                     OdenmeDurumu = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -44,8 +44,7 @@ namespace VeriTestAPI.Migrations
                         name: "FK_Harcamalar_Musteriler_MusteriId",
                         column: x => x.MusteriId,
                         principalTable: "Musteriler",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "MusteriId");
                 });
 
             migrationBuilder.CreateIndex(

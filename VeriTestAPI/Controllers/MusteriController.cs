@@ -11,18 +11,16 @@ namespace VeriTestAPI.Controllers
     [ApiController]
     public class MusteriController : ControllerBase
     {
-        MyContext _context;
         MusteriRepositories _musteriRepo;
         public MusteriController(MyContext context)
         {
-            _context = context;
-            _musteriRepo = new MusteriRepositories(_context);
+            _musteriRepo = new MusteriRepositories(context);
         }
-
+        [Route("getall")]
         [HttpGet]
         public IActionResult GetAll()
         {
-            var musteriler = _context.Musteriler.ToList();
+            var musteriler = _musteriRepo.GetAll();
             return Ok(musteriler);
         }
 
@@ -33,6 +31,8 @@ namespace VeriTestAPI.Controllers
             var musteri = _musteriRepo.Get(id);
             return Ok(musteri);
         }
+
+
 
         // POST api/<MusteriController>
         [HttpPost]
